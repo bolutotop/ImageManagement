@@ -7,13 +7,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   request: Request,
-  // [强制修改 1]: params 类型必须定义为 Promise
   { params }: { params: Promise<{ filename: string }> } 
 ) {
-  // [强制修改 2]: 必须通过 await 异步解析参数
   const resolvedParams = await params;
   const filename = resolvedParams.filename;
-
   const filePath = join(process.cwd(), "storage", filename);
 
   if (!existsSync(filePath)) {
@@ -22,19 +19,27 @@ export async function GET(
 
   try {
     const fileBuffer = await readFile(filePath);
-    
-    // MIME Type 推断
     const ext = filename.split('.').pop()?.toLowerCase();
-    let contentType = "image/jpeg";
-    if (ext === "png") contentType = "image/png";
-    else if (ext === "gif") contentType = "image/gif";
-    else if (ext === "webp") contentType = "image/webp";
-    else if (ext === "svg") contentType = "image/svg+xml";
+    
+    // MIME 映射字典
+    const mimeTypes: Record<string, string> = {
+      png: "image/png",
+      gif: "image/gif",
+      webp: "image/webp",
+      svg: "image/svg+xml",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg"
+    };
+    const contentType = mimeTypes[ext || ""] || "application/octet-stream";
 
+    // 核心：构建带有 CORS 和缓存控制的响应头
     return new NextResponse(fileBuffer, {
       headers: {
         "Content-Type": contentType,
         "Cache-Control": "public, max-age=31536000, immutable",
+        // 允许任何外部域名访问、读取该图片资源
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
       },
     });
   } catch (error) {
