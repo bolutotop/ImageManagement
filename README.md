@@ -82,3 +82,7 @@ pm2 startup systemd # 执行后需复制终端提示的命令再运行一次
 ```bash
 pm2 logs cf-tunnel --lines 30 --nostream
 ```
+
+## 目前域名
+
+https://laws-happening-aspects-installation.trycloudflare.com/
