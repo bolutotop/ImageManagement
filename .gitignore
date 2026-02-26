@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+
+# SQLite 数据库文件
+prisma/*.db
+prisma/*.db-journal
+
+# 本地上传的图片资源
+public/uploads/*
+!public/uploads/.gitkeep
+
+storage/*
+!storage/.gitkeep

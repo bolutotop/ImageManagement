@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String   // 公网访问地址
+  size      Int      // 字节
+  createdAt DateTime @default(now())
+}
