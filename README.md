@@ -26,23 +26,24 @@ sudo dpkg -i cloudflared.deb
 ### 安装依赖:
 
 ```bash
-`npm install prisma@6 @prisma/client@6 --save-exact`
+npm install prisma@6 @prisma/client@6 --save-exact
 
-`npm install`
+npm install
 
-`mkdir .env`
+mkdir .env
 ```
-写入 DATABASE_URL="file:./dev.db"
+
+.env 写入 DATABASE_URL="file:./dev.db"
 
 ### 数据库同步:
 ```bash
-`npx prisma generate`
+npx prisma generate
 
-`npx prisma db push`
+npx prisma db push
 
-`npm run build`
+npm run build
 
-`mkdir ecosystem.config.js`
+mkdir ecosystem.config.js
 ```
 写入
 ```js
